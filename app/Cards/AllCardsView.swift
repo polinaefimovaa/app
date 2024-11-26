@@ -37,12 +37,12 @@ struct AddCardView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section (header: Text("Card Information")) {
-                    TextField("Title", text: $title)
-                    TextField("Description", text: $description)
-                    TextField("Tags (comma separated)", text: $tags)
+                Section (header: Text("Статья")) {
+                    TextField("Заголовок", text: $title)
+                    TextField("Описание", text: $description)
+                    TextField("Теги (через запятую)", text: $tags)
                 }
-                Button("Add Card") {
+                Button("Добавить статью") {
                     let tagList = tags.split(separator: ",").map {
                         String($0).trimmingCharacters (in: .whitespaces)
                     }
@@ -50,8 +50,8 @@ struct AddCardView: View {
                     cards.append(newCard)
                 }
             }
-            .navigationBarTitle("Add Card")
-            .navigationBarItems (trailing: Button("Done") {
+            .navigationBarTitle("Добавить статью")
+            .navigationBarItems (trailing: Button("Готово") {
                 
                 // Закрытие модального окна
             })

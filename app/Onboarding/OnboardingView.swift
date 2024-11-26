@@ -5,7 +5,9 @@ struct OnboardingView: View {
     var body: some View {
         VStack {
             Text(data.title).font(.largeTitle)
+                .padding(.bottom, 20)
             Text(data.description).font(.body)
         }
+        
     }
 }

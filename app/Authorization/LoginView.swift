@@ -1,28 +1,34 @@
 import SwiftUI
 
 struct LoginView: View {
+    @AppStorage("isAuthenticated") private var isAuthenticated = false
     @State private var username: String = ""
     @State private var password: String = ""
     var body: some View {
         VStack {
-            Text("Login")
+            Text("Войти")
                 .font(.largeTitle)
                 .padding(.bottom, 40)
-            TextField("Username", text: $username)
+            TextField("Ник", text: $username)
                 .padding()
                 .background(Color(.secondarySystemBackground))
                 .cornerRadius(5.0)
                 .padding(.bottom, 20)
             
-            SecureField("Password", text: $password)
+            SecureField("Пароль", text: $password)
                 .padding()
                 .background(Color(.secondarySystemBackground))
                 .cornerRadius(5.0)
                 .padding(.bottom, 20)
             Button(action: {
-                print("Button tapped")
+                if username == "Mark00" && password == "123456" {
+                    isAuthenticated = true
+                }
+                else {
+                    print("Данные неверны")
+                }
             }) {
-                Text ("Login")
+                Text ("Войти")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()

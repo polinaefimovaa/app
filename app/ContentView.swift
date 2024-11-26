@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var cards: [Card] = [
-        Card(title: "Card 1", description: "Description for card 1", tags: ["Tag1", "Tag2"]),
-        Card(title: "Card 2", description: "Description for card 2", tags: ["Tag3"]),
-        Card(title: "Card 3", description: "Description for card 3", tags: ["Tag1", "Tag4"])
+        Card(title: "Адаптационная встреча: что это? Для кого это?", description: "Адаптационная встреча — важный этап, расскажем почему", tags: ["учебный процесс", "иностранные студенты"]),
+        Card(title: "Как связаться с иностранным студентом?", description: "Часто иностранные студенты, особенно в первое время обучения, теряются, чтобы быть всегда с ними на связи следуйте нашим правилам", tags: ["бадди"]),
+        Card(title: "Где купить сим-карту?", description: "Покупка сим-карты вызывает множество вопросов у студентов, в нашей статье мы рассказали про особенности этого процесса", tags: ["иностранные студенты", "жизни в России"])
     ]
     @State private var showModal = false
     @State private var selectedTags: Set<String> = []
@@ -21,7 +21,7 @@ struct ContentView: View {
 
     var filteredCards: [Card] {
         cards.filter { card in
-            let matchesTag = selectedTags.isEmpty || selectedTags.contains("All") || !selectedTags.isDisjoint(with: card.tags)
+            let matchesTag = selectedTags.isEmpty || selectedTags.contains("Все") || !selectedTags.isDisjoint(with: card.tags)
             let matchesSearchText = searchText.isEmpty || card.title.localizedCaseInsensitiveContains(searchText) || card.description.localizedCaseInsensitiveContains(searchText)
             return matchesTag && matchesSearchText
         }
@@ -30,13 +30,13 @@ struct ContentView: View {
     var sortedTags: [String] {
         let allTags = Array(Set(cards.flatMap { $0.tags }))
         let unselectedTags = allTags.filter { !selectedTags.contains($0) }
-        return ["All"] + Array(selectedTags).filter { $0 != "All" } + unselectedTags.sorted()
+        return ["Все"] + Array(selectedTags).filter { $0 != "Все" } + unselectedTags.sorted()
     }
 
     var body: some View {
         NavigationView {
             VStack {
-                TextField("Search", text: $searchText)
+                TextField("Поиск", text: $searchText)
                     .padding(10)
                     .background(Color(.secondarySystemBackground))
                     .cornerRadius(10)
@@ -51,10 +51,10 @@ struct ContentView: View {
                                 .foregroundColor(selectedTags.contains(tag) ? .white : Color.primary)
                                 .cornerRadius(10)
                                 .onTapGesture {
-                                    if tag == "All" {
-                                        selectedTags = ["All"]
+                                    if tag == "Все" {
+                                        selectedTags = ["Все"]
                                     } else {
-                                        selectedTags.remove("All")
+                                        selectedTags.remove("Все")
                                         if selectedTags.contains(tag) {
                                             selectedTags.remove(tag)
                                         } else {
@@ -76,7 +76,8 @@ struct ContentView: View {
                     }
                     .onDelete(perform: deleteCard)
                 }
-                .navigationBarTitle("Cards")
+                .navigationBarTitle("Статьи")
+                .navigationBarBackButtonHidden(true)
                 .navigationBarItems(
                     leading: HStack {
                         Button(action: {
@@ -109,13 +110,13 @@ struct ContentView: View {
                     AddCardView(cards: $cards)
                 }
                 .sheet(isPresented: $showProfile) {
-                    ProfileView(user: $user)
+                    ProfileView()
                 }
                 .sheet(isPresented: $showSettings) {
                     SettingsView()
                 }
                 .fullScreenCover(item: $selectedCard) { card in
-                    CardView(card: card)
+                    CardPageView(card: card)
                 }
             }
         }
