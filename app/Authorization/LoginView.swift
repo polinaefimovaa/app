@@ -2,42 +2,53 @@ import SwiftUI
 
 struct LoginView: View {
     @AppStorage("isAuthenticated") private var isAuthenticated = false
-    @State private var username: String = ""
+    @State private var email: String = ""
     @State private var password: String = ""
+    
+    @State private var isEmailValid: Bool = true
+    
     var body: some View {
         VStack {
-            Text("Войти")
-                .font(.largeTitle)
-                .padding(.bottom, 40)
-            TextField("Ник", text: $username)
-                .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
+            Image("logIn")
+                .resizable()
             
-            SecureField("Пароль", text: $password)
-                .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
-            Button(action: {
-                if username == "Mark00" && password == "123456" {
-                    isAuthenticated = true
+            VStack (alignment: .leading) {
+                H1(text: "ВХОД")
+                    .padding(.top, 32)
+                CustomTextField(text: $email, title: "Студенческая почта", placeholder: "Введите почту")
+                CustomTextFieldSecure(text: $password, title: "Пароль", placeholder: "Введите пароль")
+                
+                Button(action: {
+                    if authenticate(email: email, password: password) {
+                        isAuthenticated = true 
+                    } else {
+                        print("Данные неверны")
+                    }
+                }) {
+                    PrimaryButton(text: "ВОЙТИ")
+                        
                 }
-                else {
-                    print("Данные неверны")
+                HStack {
+                    Text("Нет аккаунта?")
+                        .font(.custom("TTHover-Regular", size: 18))
+                        .foregroundColor(.grey700)
+                    Spacer()
+                    Link("Регистрация", destination: URL(string: "http://localhost:3000/users/sign_up")!)
+                        .font(.custom("TTHover-Medium", size: 18))
+                        .foregroundColor(.chorni)
+                        
                 }
-            }) {
-                Text ("Войти")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 220, height: 60)
-                    .background(Color.blue)
-                    .cornerRadius(15.0)
+                .padding(.bottom, 32)
             }
-            .padding()
+            .padding(.horizontal, 16)
+            
         }
+    }
+    private func authenticate(email: String, password: String) -> Bool {
+        if "student_0@edu.hse.ru" == email.lowercased() && password == "12345" {
+            return true // Успешная аутентификация
+        }
+        return false // Неудачная аутентификация
     }
 }
 #Preview {

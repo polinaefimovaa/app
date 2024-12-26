@@ -13,15 +13,15 @@ struct PostImage: Codable, Hashable {
 struct Article: Codable, Identifiable, Hashable {
     let id: Int
     let title: String
-    let content: String?
-    let tags: String
+    let content: String
+    let tag: String
     let post_image: PostImage
     let createdAt: String?
     let updatedAt: String?
     
     enum CodingKeys: String, CodingKey {
         case id = "user_id"
-        case title, content, tags
+        case title, content, tag
         case post_image
         case createdAt = "created_at"
         case updatedAt = "updated_at"

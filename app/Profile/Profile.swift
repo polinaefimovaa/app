@@ -1,6 +1,6 @@
 import Foundation
 
-struct User: Codable, Identifiable, Hashable {
+struct Profile: Codable, Identifiable, Hashable {
     let id: Int
     let userId: Int // Изменено на camelCase для согласованности
     let name: String

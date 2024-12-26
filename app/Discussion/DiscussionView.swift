@@ -1,11 +1,18 @@
 import SwiftUI
 
 struct DiscussionView: View {
-    @State private var selectedTab = 1
+    @StateObject private var fetcher = DiscussionFetcher()
+    @State private var currentPage: Int = 0
+
     var body: some View {
-        VStack {
-            H1(text: "ОБСУЖДЕНИЯ")
-            
+        TabView(selection: $currentPage) {
+
+            DiscussionSectionView(discussions: fetcher.discussion)  // Изменено на 'discussions'
+                .tag(0)
+        }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        .onAppear {
+            fetcher.fetchData()
         }
     }
 }
